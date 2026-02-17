@@ -1,4 +1,4 @@
-# ⚡ AlphaEngine — Algorithmic Trading Framework
+# ⚡ AlphaEngine - Algorithmic Trading Framework
 
 **Professional-grade Python framework for backtesting, optimizing, and deploying trading strategies.**
 
@@ -134,11 +134,11 @@ class MyStrategy(BaseStrategy):
 
 ## Tech Stack
 
-- **Python 3.10+** — core framework
-- **Streamlit** — interactive dashboard
-- **Plotly** — professional charts
-- **NumPy/Pandas** — data processing
-- **MQL5** — MetaTrader 5 Expert Advisor
+- **Python 3.10+** - core framework
+- **Streamlit** - interactive dashboard
+- **Plotly** - professional charts
+- **NumPy/Pandas** - data processing
+- **MQL5** - MetaTrader 5 Expert Advisor
 
 ---
 
