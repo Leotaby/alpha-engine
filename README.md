@@ -39,7 +39,7 @@ This repo contains the **free demo** with 1 strategy (Momentum) and basic backte
 - ✅ Portfolio tracker with commission/slippage
 - ✅ Performance metrics (Sharpe, Sortino, win rate, etc.)
 - ✅ Position sizing
-- ✅ **Run provenance logging** — every backtest captures the *why*, not just the *what*
+- ✅ **Run provenance logging** - every backtest captures the *why*, not just the *what*
 
 ### 🔒 Full Version ([Get it here →](https://leotaby.gumroad.com/l/alphaengine))
 - ✦ **5 strategies**: Momentum, Mean Reversion, Breakout, RSI+MACD, Grid Trading
