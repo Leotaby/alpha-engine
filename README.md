@@ -39,6 +39,7 @@ This repo contains the **free demo** with 1 strategy (Momentum) and basic backte
 - ✅ Portfolio tracker with commission/slippage
 - ✅ Performance metrics (Sharpe, Sortino, win rate, etc.)
 - ✅ Position sizing
+- ✅ **Run provenance logging** — every backtest captures the *why*, not just the *what*
 
 ### 🔒 Full Version ([Get it here →](https://leotaby.gumroad.com/l/alphaengine))
 - ✦ **5 strategies**: Momentum, Mean Reversion, Breakout, RSI+MACD, Grid Trading
@@ -79,7 +80,72 @@ Output:
   Profit Factor        0.00
   Total Trades         2
 ════════════════════════════════════════════════════════════
+
+  📝 Run saved → ID: f7e302ab  (logs/run_history.json)
+
+────────────────────────────────────────────────────────
+  Run ID       : f7e302ab
+  Strategy     : momentum  |  BTC/USDT  |  1h
+  Regime       : trending
+────────────────────────────────────────────────────────
+  HYPOTHESIS
+  Default dual-EMA crossover with ADX > 25 to confirm trend
+  strength. Baseline run before any parameter tuning.
+────────────────────────────────────────────────────────
+  PARAMETERS
+    fast_period            12
+    slow_period            26
+    adx_threshold          25.0
+────────────────────────────────────────────────────────
+  RESULTS
+    Total Return           +0.23%
+    Sharpe Ratio           0.040
+    Win Rate               100.0%
+────────────────────────────────────────────────────────
+
+  📋 Run History
+  ID         Strategy    Regime      Return%  Sharpe  Trades
+  f7e302ab   momentum    trending      +0.23   0.040       2
 ```
+
+---
+
+## Run Provenance Logging
+
+One of the hardest problems in systematic trading is remembering *why* you chose a specific configuration — not just what the parameters were. AlphaEngine solves this with a lightweight `RunContext` layer built into every backtest.
+
+Every run captures:
+
+```python
+ctx = RunContext(
+    strategy_name="momentum",
+    params={"fast_period": 12, "slow_period": 26, "adx_threshold": 25.0},
+    hypothesis="ADX > 25 filters noise in ranging BTC markets. Testing baseline before tuning.",
+    market_regime="trending",   # trending | ranging | volatile | mean-reverting
+    symbol="BTC/USDT",
+    tags=["baseline", "crypto", "adx-filter"],
+    notes="Synthetic data — alternating trending/ranging regimes every 200 bars.",
+)
+```
+
+Results are automatically persisted to `logs/run_history.json`. You can query your full history:
+
+```python
+from core.run_logger import RunLogger
+
+log = RunLogger("logs/run_history.json")
+
+# Top 5 runs by Sharpe ratio
+best = log.top_n(metric="sharpe_ratio", n=5)
+
+# Filter by strategy and regime
+trending = log.filter(strategy="momentum", regime="trending")
+
+# Side-by-side parameter + result comparison
+log.compare("f7e302ab", "a1b2c3d4")
+```
+
+The edge lives in the assumption that drove the setup, not just the parameters.
 
 ---
 
